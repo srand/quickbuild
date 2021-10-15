@@ -1,0 +1,57 @@
+version: "3"
+
+networks:
+  quickbuild:
+
+services:
+  server:
+    build: Dockerfile
+    image: quickbuild:latest
+    environment:
+      - QUICKBUILD_DB_TYPE=postgres
+      - QUICKBUILD_DB_HOST=postgres:5432
+      - QUICKBUILD_DB_NAME=quickbuild
+      - QUICKBUILD_DB_USER=quickbuild
+      - QUICKBUILD_DB_PASSWD=quickbuild
+    restart: always
+    networks:
+      - quickbuild
+    volumes:
+      - quickbuild:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "8810:8810"
+    depends_on:
+      - db
+
+  agent:
+    build: Dockerfile.agent
+    image: quickbuild-agent:latest
+    environment:
+      - QUICKBUILD_HOST=server
+      - QUICKBUILD_USER=admin
+      - QUICKBUILD_PASSWD=quickbuild
+    restart: always
+    networks:
+      - quickbuild
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - server
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=quickbuild
+      - POSTGRES_PASSWORD=quickbuild
+      - POSTGRES_DB=quickbuild
+    networks:
+      - quickbuild
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  postgres:
+  quickbuild:
