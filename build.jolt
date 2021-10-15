@@ -1,0 +1,23 @@
+from jolt import Alias
+from jolt.plugins import docker
+
+
+class QuickBuildServerImage(docker.DockerImage):
+    name = "qb-server"
+    dockerfile = "Dockerfile"
+    push = True
+    tag = "robrt/quickbuild:latest"
+
+
+class QuickBuildAgentImage(docker.DockerImage):
+    name = "qb-agent"
+    dockerfile = "Dockerfile.agent"
+    push = True
+    tag = "robrt/quickbuild-agent:latest"
+
+
+class Default(Alias):
+    requires = [
+        "qb-agent",
+        "qb-server",
+    ]
