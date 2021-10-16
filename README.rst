@@ -12,7 +12,7 @@ Server Configuration
 
 These environment variables can be set to customize the container:
 
-  - ``QUICKBUILD_DB_TYPE``: Accepted value is ``postgres`.
+  - ``QUICKBUILD_DB_TYPE``: Accepted value is ``postgres``.
   - ``QUICKBUILD_DB_HOST``: Server host and port. (default: ``postgres:5432``)
   - ``QUICKBUILD_DB_NAME``: Database name. Default: ``quickbuild``
   - ``QUICKBUILD_DB_USER``: Username. Default: ``quickbuild``
@@ -40,5 +40,5 @@ deploy QuickBuild, QuickBuild Build Agents and the Postgres DBMS all at once.
 Deployment checklist:
 
   - Change all default usernames and passwords.
-  - Configure server data to be stored in the mounted volume at ``/data``.
+  - Configure the server to store data in the mounted volume at ``/data``.
   - Create a server admin user account matching credentials configured for build agents.
