@@ -6,7 +6,7 @@ class QuickBuildServerImage(docker.DockerImage):
     name = "qb-server"
     dockerfile = "Dockerfile"
     push = True
-    requires = ["docker/cli"]
+    requires = ["docker/cli", "docker/login"]
     tag = "robrt/quickbuild:latest"
 
 
@@ -14,7 +14,7 @@ class QuickBuildAgentImage(docker.DockerImage):
     name = "qb-agent"
     dockerfile = "Dockerfile.agent"
     push = True
-    requires = ["docker/cli"]
+    requires = ["docker/cli", "docker/login"]
     tag = "robrt/quickbuild-agent:latest"
 
 
