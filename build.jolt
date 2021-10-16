@@ -1,7 +1,15 @@
-from jolt import Alias, BooleanParameter, Parameter, attributes
+from jolt import Alias, BooleanParameter, Parameter, attributes, Tools
 from jolt.plugins import docker
+import re
+import urllib3
 
-_version = "11.0.18"
+try:
+    t = Tools()
+    doc = t.run("curl -L https://www.pmease.com/downloads", output=False)
+    _version = re.search(r"Version:.*?(\d+.\d+.\d+)", doc).group(1)
+except:
+    _version = "11.0.18"
+    print("Using fallback version: ", _version)
 
 
 @attributes.requires("requires_push_{push}")
