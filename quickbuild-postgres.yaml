@@ -6,7 +6,7 @@ networks:
 services:
   server:
     build: Dockerfile
-    image: quickbuild:latest
+    image: robrt/quickbuild:latest
     environment:
       - QUICKBUILD_DB_TYPE=postgres
       - QUICKBUILD_DB_HOST=postgres:5432
@@ -27,9 +27,9 @@ services:
 
   agent:
     build: Dockerfile.agent
-    image: quickbuild-agent:latest
+    image: robrt/quickbuild-agent:latest
     environment:
-      - QUICKBUILD_HOST=server
+      - QUICKBUILD_URL=http://server:8810
       - QUICKBUILD_USER=admin
       - QUICKBUILD_PASSWD=quickbuild
     restart: always
