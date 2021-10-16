@@ -1,25 +1,34 @@
-from jolt import Alias
+from jolt import Alias, BooleanParameter, Parameter, attributes
 from jolt.plugins import docker
 
+_version = "11.0.18"
 
+
+@attributes.requires("requires_push_{push}")
 class QuickBuildServerImage(docker.DockerImage):
     name = "qb-server"
+    buildargs = ["VERSION={version}"]
     dockerfile = "Dockerfile"
-    push = True
-    requires = ["docker/cli", "docker/login"]
-    tag = "robrt/quickbuild:latest"
+    push = BooleanParameter(False)
+    requires = ["docker/cli"]
+    requires_push_true = ["docker/login"]
+    tags = ["robrt/quickbuild:latest", "robrt/quickbuild:{version}"]
+    version = Parameter(_version, help="QuickBuild Version")
 
 
+@attributes.requires("requires_push_{push}")
 class QuickBuildAgentImage(docker.DockerImage):
     name = "qb-agent"
     dockerfile = "Dockerfile.agent"
-    push = True
-    requires = ["docker/cli", "docker/login"]
-    tag = "robrt/quickbuild-agent:latest"
+    push = BooleanParameter(False)
+    requires = ["docker/cli"]
+    requires_push_true = ["docker/login"]
+    tags = ["robrt/quickbuild-agent:latest", "robrt/quickbuild-agent:{version}"]
+    version = Parameter(_version, help="QuickBuild Version")
 
 
 class Default(Alias):
     requires = [
-        "qb-agent",
-        "qb-server",
+        "qb-agent:push=true",
+        "qb-server:push=true",
     ]

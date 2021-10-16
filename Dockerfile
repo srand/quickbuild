@@ -3,7 +3,6 @@ MAINTAINER Robert Andersson
 
 ARG VERSION=11.0.18
 ARG URL=https://www.pmease.com/artifacts/5375/quickbuild-$VERSION.tar.gz
-
 ARG POSTGRES_VERSION=42.2.24
 
 WORKDIR /opt/
