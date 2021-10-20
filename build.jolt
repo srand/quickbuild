@@ -20,8 +20,16 @@ class QuickBuildServerImage(docker.DockerImage):
     push = BooleanParameter(False)
     requires = ["docker/cli"]
     requires_push_true = ["docker/login"]
-    tags = ["robrt/quickbuild:latest", "robrt/quickbuild:{version}"]
+    tags = [
+        "robrt/quickbuild:latest",
+        "robrt/quickbuild:{version_major}",
+        "robrt/quickbuild:{version}",
+    ]
     version = Parameter(_version, help="QuickBuild Version")
+
+    @property
+    def version_major(self):
+        return str(self.version).split(".")[0]
 
 
 @attributes.requires("requires_push_{push}")
@@ -31,8 +39,16 @@ class QuickBuildAgentImage(docker.DockerImage):
     push = BooleanParameter(False)
     requires = ["docker/cli"]
     requires_push_true = ["docker/login"]
-    tags = ["robrt/quickbuild-agent:latest", "robrt/quickbuild-agent:{version}"]
+    tags = [
+        "robrt/quickbuild-agent:latest",
+        "robrt/quickbuild-agent:{version_major}",
+        "robrt/quickbuild-agent:{version}",
+    ]
     version = Parameter(_version, help="QuickBuild Version")
+
+    @property
+    def version_major(self):
+        return str(self.version).split(".")[0]
 
 
 class Default(Alias):
