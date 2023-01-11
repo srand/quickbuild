@@ -1,9 +1,9 @@
 FROM openjdk:11
 MAINTAINER Robert Andersson
 
-ARG VERSION=11.0.18
-ARG URL=https://build.pmease.com/download/169.latest_successful/artifacts/quickbuild-$VERSION.tar.gz
-ARG POSTGRES_VERSION=42.2.24
+ARG VERSION=12.0.27
+ARG URL=https://build.pmease.com/download/174.latest_successful/artifacts/quickbuild-$VERSION.tar.gz
+ARG POSTGRES_VERSION=42.2.27
 
 WORKDIR /opt/
 

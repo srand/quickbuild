@@ -1,5 +1,5 @@
-from jolt import Alias, BooleanParameter, Parameter, attributes, Tools
-from jolt.plugins import docker
+from jolt import Alias, BooleanParameter, Parameter, attributes, Tools, influence
+from jolt.plugins import docker, git
 import re
 import urllib3
 
@@ -13,6 +13,7 @@ except:
 
 
 @attributes.requires("requires_push_{push}")
+@git.influence(".")
 class QuickBuildServerImage(docker.DockerImage):
     name = "qb-server"
     buildargs = ["VERSION={version}"]
@@ -33,6 +34,7 @@ class QuickBuildServerImage(docker.DockerImage):
 
 
 @attributes.requires("requires_push_{push}")
+@git.influence(".")
 class QuickBuildAgentImage(docker.DockerImage):
     name = "qb-agent"
     dockerfile = "Dockerfile.agent"
