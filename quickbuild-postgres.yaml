@@ -23,7 +23,7 @@ services:
     ports:
       - "8810:8810"
     depends_on:
-      - db
+      - postgres
 
   agent:
     build: Dockerfile.agent
