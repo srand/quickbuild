@@ -1,18 +1,17 @@
-FROM openjdk:11
+FROM openjdk:21-slim
 MAINTAINER Robert Andersson
 
 ARG VERSION=12.0.27
 ARG URL=https://build.pmease.com/download/187.latest_successful/artifacts/quickbuild-$VERSION.tar.gz
-ARG POSTGRES_VERSION=42.2.27
+ARG POSTGRES_VERSION=42.7.3
 
 WORKDIR /opt/
 
-RUN apt update && apt install -y python3-pip && apt clean
-RUN wget $URL
+RUN apt update && apt install -y procps python3-pip python3-virtualenv && apt clean
+ADD $URL .
 RUN tar xzvf $(basename $URL) && rm -f $(basename $URL)
 RUN mv quickbuild-$VERSION quickbuild
-RUN cd /opt/quickbuild/plugins/com.pmease.quickbuild.libs && wget https://jdbc.postgresql.org/download/postgresql-$POSTGRES_VERSION.jar
-RUN python3 -m pip install virtualenv
+ADD https://jdbc.postgresql.org/download/postgresql-$POSTGRES_VERSION.jar /opt/quickbuild/plugins/com.pmease.quickbuild.libs/
 
 ADD install-tree/ /
 
