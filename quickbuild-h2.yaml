@@ -9,11 +9,7 @@ services:
       context: .
     image: robrt/quickbuild:latest
     environment:
-      - QUICKBUILD_DB_TYPE=postgres
-      - QUICKBUILD_DB_HOST=postgres:5432
-      - QUICKBUILD_DB_NAME=quickbuild
-      - QUICKBUILD_DB_USER=quickbuild
-      - QUICKBUILD_DB_PASSWD=quickbuild
+      - QUICKBUILD_DB_TYPE=h2
     restart: always
     networks:
       - quickbuild
@@ -23,8 +19,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "8810:8810"
-    depends_on:
-      - postgres
 
   agent:
     build:
@@ -44,17 +38,5 @@ services:
     depends_on:
       - server
 
-  postgres:
-    image: postgres:latest
-    restart: always
-    environment:
-      - POSTGRES_USER=quickbuild
-      - POSTGRES_PASSWORD=quickbuild
-      - POSTGRES_DB=quickbuild
-    networks:
-      - quickbuild
-    volumes:
-      - postgres:/var/lib/postgresql/data
 volumes:
-  postgres:
   quickbuild:

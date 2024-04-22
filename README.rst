@@ -12,7 +12,10 @@ Server Configuration
 
 These environment variables can be set to customize the container:
 
-  - ``QUICKBUILD_DB_TYPE``: Accepted value is ``postgres``.
+  - ``QUICKBUILD_DB_TYPE``: Accepted values are ``h2`` (default) and ``postgres``.
+
+When ``QUICKBUILD_DB_TYPE=postgres``:
+
   - ``QUICKBUILD_DB_HOST``: Server host and port. (default: ``postgres:5432``)
   - ``QUICKBUILD_DB_NAME``: Database name. Default: ``quickbuild``
   - ``QUICKBUILD_DB_USER``: Username. Default: ``quickbuild``

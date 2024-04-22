@@ -1,7 +1,7 @@
 FROM openjdk:21-slim
 MAINTAINER Robert Andersson
 
-ARG VERSION=12.0.27
+ARG VERSION=14.0.9
 ARG URL=https://build.pmease.com/download/187.latest_successful/artifacts/quickbuild-$VERSION.tar.gz
 ARG POSTGRES_VERSION=42.7.3
 

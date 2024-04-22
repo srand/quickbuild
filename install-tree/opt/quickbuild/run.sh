@@ -1,24 +1,28 @@
-#!/bin/sh
+#!/bin/bash
 
-# Use postgres by default
-if [ -z $QUICKBUILD_DB_TYPE ]; then
-    QUICKBUILD_DB_TYPE="postgres"
-fi
+HIBERNATE_CONF="/opt/quickbuild/conf/hibernate.properties"
 
-if [ "$QUICKBUILD_DB_TYPE" = "postgres" ]; then
-    [ -z $QUICKBUILD_DB_HOST ] && QUICKBUILD_DB_HOST="localhost:5432"
-    [ -z $QUICKBUILD_DB_NAME ] && QUICKBUILD_DB_NAME="quickbuild"
-    [ -z $QUICKBUILD_DB_USER ] && QUICKBUILD_DB_USER="quickbuild"
-    [ -z $QUICKBUILD_DB_PASSWD ] && QUICKBUILD_DB_PASSWD="quickbuild"
+if [ ! -f $HIBERNATE_CONF ]; then
+    case "$QUICKBUILD_DB_TYPE" in
+	postgres)
+	    [ -z $QUICKBUILD_DB_HOST ] && QUICKBUILD_DB_HOST="localhost:5432"
+	    [ -z $QUICKBUILD_DB_NAME ] && QUICKBUILD_DB_NAME="quickbuild"
+	    [ -z $QUICKBUILD_DB_USER ] && QUICKBUILD_DB_USER="quickbuild"
+	    [ -z $QUICKBUILD_DB_PASSWD ] && QUICKBUILD_DB_PASSWD="quickbuild"
 
-    # Write config
-    cat <<EOF > /opt/quickbuild/conf/hibernate.properties
+	    # Write config
+	    cat <<EOF > $HIBERNATE_CONF
 hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 hibernate.connection.driver_class=org.postgresql.Driver
 hibernate.connection.url=jdbc:postgresql://$QUICKBUILD_DB_HOST/$QUICKBUILD_DB_NAME
 hibernate.connection.username=$QUICKBUILD_DB_USER
 hibernate.connection.password=$QUICKBUILD_DB_PASSWD
 EOF
+	    ;;
+	*)
+	    QUICKBUILD_DB_TYPE="h2"
+	    ;;
+    esac
 fi
 
 sh /opt/quickbuild/bin/server.sh console
