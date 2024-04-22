@@ -11,6 +11,7 @@ RUN apt update && apt install -y procps python3-pip python3-virtualenv && apt cl
 ADD $URL .
 RUN tar xzvf $(basename $URL) && rm -f $(basename $URL)
 RUN mv quickbuild-$VERSION quickbuild
+RUN rm /opt/quickbuild/conf/hibernate.properties
 ADD https://jdbc.postgresql.org/download/postgresql-$POSTGRES_VERSION.jar /opt/quickbuild/plugins/com.pmease.quickbuild.libs/
 
 ADD install-tree/ /

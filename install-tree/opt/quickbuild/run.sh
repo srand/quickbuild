@@ -21,6 +21,14 @@ EOF
 	    ;;
 	*)
 	    QUICKBUILD_DB_TYPE="h2"
+	    # Write config
+	    cat <<EOF > $HIBERNATE_CONF
+hibernate.dialect=org.hibernate.dialect.H2Dialect
+hibernate.connection.driver_class=org.h2.Driver
+hibernate.connection.url=jdbc:h2:/data;DB_CLOSE_ON_EXIT=FALSE
+hibernate.connection.username=sa
+hibernate.connection.password=
+EOF
 	    ;;
     esac
 fi
