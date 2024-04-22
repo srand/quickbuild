@@ -26,24 +26,6 @@ services:
     depends_on:
       - postgres
 
-  agent:
-    build:
-      context: .
-      dockerfile: Dockerfile.agent
-    image: robrt/quickbuild-agent:latest
-    environment:
-      - QUICKBUILD_URL=http://server:8810
-      - QUICKBUILD_USER=admin
-      - QUICKBUILD_PASSWD=quickbuild
-    restart: always
-    networks:
-      - quickbuild
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
-    depends_on:
-      - server
-
   postgres:
     image: postgres:latest
     restart: always

@@ -33,28 +33,7 @@ class QuickBuildServerImage(docker.DockerImage):
         return str(self.version).split(".")[0]
 
 
-@attributes.requires("requires_push_{push}")
-@git.influence(".")
-class QuickBuildAgentImage(docker.DockerImage):
-    name = "qb-agent"
-    dockerfile = "Dockerfile.agent"
-    push = BooleanParameter(False)
-    requires = ["docker/cli"]
-    requires_push_true = ["docker/login"]
-    tags = [
-        "robrt/quickbuild-agent:latest",
-        "robrt/quickbuild-agent:{version_major}",
-        "robrt/quickbuild-agent:{version}",
-    ]
-    version = Parameter(_version, help="QuickBuild Version")
-
-    @property
-    def version_major(self):
-        return str(self.version).split(".")[0]
-
-
 class Default(Alias):
     requires = [
-        "qb-agent:push=true",
         "qb-server:push=true",
     ]
